@@ -14,13 +14,13 @@ node ('slave1'){
     }
     stage ('build+ut'){
     	//this runs unit test (assumes there's a mongo running at 'mongo'
-	def gr = tool 'gradle'
+	def gr = tool 'gradle' // вот тут он ставит гредл из глобал конигурации (название маппится из конфигурации) и возвращает путь в переменную 
 	sh "${gr}/bin/gradle build"
         junit 'build/test-results/test/*.xml'
    }
    def image = ''
    stage ('dockerize'){
-       image = docker.build "otomato/oto-${svcName}:${env.BUILD_NUMBER}"
+       image = docker.build "rusnw/oto-${svcName}:${env.BUILD_NUMBER}"
    }
     
     stage ('push'){
